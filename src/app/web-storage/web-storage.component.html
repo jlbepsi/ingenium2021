@@ -1,0 +1,46 @@
+<app-navbar>
+
+  <h2>Espace Web</h2>
+  <mat-divider></mat-divider>
+
+  <h3>Espace utilisé</h3>
+  <div *ngIf="isLoading">
+    <mat-spinner diameter="25"></mat-spinner>
+    <div style="position:relative; top: -20px; left: 40px;">Chargement en cours ...</div>
+  </div>
+  <div *ngIf="!isLoading">
+    <div *ngIf="errorMessage.length>0">
+      <app-alert [type]="'danger'">{{ errorMessage }}</app-alert>
+      <br />
+    </div>
+
+    <div *ngIf="webstorage!==undefined">
+      <p>Vous utilisez actuellement :</p>
+      <ul>
+        <li>Fichiers crées : {{ webstorage.filesCount }}</li>
+        <li>Espace utilisé : {{ webstorage.size | sizeReadable }}</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Déposer des fichiers</h3>
+  <div>
+    <p>Pour déposer vos pages HTML et PHP sur votre espace Web, choisissez l'un des accès suivants.</p>
+
+    <h3>Utiliser un client FTP tel que <a href="https://filezilla-project.org/download.php?type=client" target="_blank">FileZilla</a></h3>
+    <p>Entrer les informations de connexion suivantes :</p>
+    <ul>
+      <li>Serveur : <b><code>ftp.montpellier.epsi.fr</code></b></li>
+      <li>Identifiant : <b>{{ login }}</b></li>
+      <li>Mot de passe: <i>Votre mot de passe</i></li>
+      <li>Port : <b><code>4623</code></b></li>
+    </ul>
+
+    <h3>Accéder à votre espace web</h3>
+    <p>
+      Votre page personnelle est : <a target="_blank"  href="{{ url }}"  rel="noopener">{{ url }}</a> <br />
+      Remarque: Le message <samp>You don't have permission to access /~votre.identifiant on this server.</samp> indique que vous n'avez aucun fichier index.html ou index.php.
+    </p>
+  </div>
+
+</app-navbar>

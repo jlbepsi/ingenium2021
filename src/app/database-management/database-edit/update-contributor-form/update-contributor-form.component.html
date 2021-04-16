@@ -1,0 +1,13 @@
+
+<mat-form-field class="field-full-width">
+  <mat-label>Login</mat-label>
+  <input matInput disabled [value]="username">
+</mat-form-field>
+
+<app-alert *ngIf="updatePassword" [type]="'info'">Laissez le champ "mot de passe" vide pour ne pas le modifier.</app-alert>
+
+<app-password-form
+  *ngIf="updatePassword"
+  [verify]="false"
+  (password)="onChangePassword($event)"
+></app-password-form>

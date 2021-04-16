@@ -1,0 +1,17 @@
+<mat-chip-list>
+  <mat-chip  *ngFor="let contributor of contributors"
+             [selected]="contributor.groupType===1"
+             [color]="getColor(contributor.groupType)"
+             >
+    <mat-chip-avatar>
+      <div [ngClass]="getColor(contributor.groupType)" class="avatarperm">
+        <div class="initials"> {{getInitials(contributor.groupType)}}</div>
+      </div>
+    </mat-chip-avatar>
+    {{ showPermission ?
+    getTitle(contributor.groupType)
+      :
+    (contributor.userFullName===null ? contributor.sqlLogin : contributor.userFullName)
+    }}
+  </mat-chip>
+</mat-chip-list>

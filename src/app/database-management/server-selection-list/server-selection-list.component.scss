@@ -1,0 +1,12 @@
+
+.mat-list-base .mat-list-item .mat-list-avatar {
+  height: auto;
+  border-radius: unset;
+}
+
+.mat-list-base .mat-list-item:hover{
+  border-left: 4px solid #0767DB;
+  border-radius: 4px;
+  background-color: #ECEAE8;
+  margin-left: -4px;
+}

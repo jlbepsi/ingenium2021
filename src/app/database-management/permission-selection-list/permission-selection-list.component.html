@@ -1,0 +1,20 @@
+
+<mat-selection-list
+  (selectionChange)="onSelectionChange($event)"
+  [disabled]="disabled"
+  [multiple]="false"
+>
+  <mat-list-option
+    *ngFor="let permission of list" [value]="permission"
+    [selected]="permission.id===selectedId"
+  >
+    <div matListAvatar >
+      <div [ngClass]="getColor(permission.initial)">
+        <div class="initials">{{permission.initial}}</div>
+      </div>
+    </div>
+
+    <p matLine>{{permission.title}}</p>
+    <p matLine>{{permission.explanations}}</p>
+  </mat-list-option>
+</mat-selection-list>

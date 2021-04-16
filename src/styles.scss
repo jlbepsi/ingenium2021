@@ -1,1 +1,77 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.ng-fa-icon {
+  padding: 4px;
+  width: 24px;
+  height: 24px;
+}
+
+.field-full-width {
+  width: 100%;
+}
+.table-90-width {
+  width: 90%;
+}
+
+.mat-button.mat-danger,
+.mat-raised-button.mat-danger {
+  background-color: #f6403e;
+  color: #fdfdfd;
+}
+.mat-button.mat-error,
+.mat-raised-button.mat-error {
+  background-color: #f7d5d8;
+  color: #e67f51;
+}
+.mat-button.mat-warning,
+.mat-raised-button.mat-warning {
+  background-color: #fdf0ce;
+  color: #664b12;
+}
+.mat-button.mat-success,
+.mat-raised-button.mat-success {
+  background-color: #cee5db;
+  color: #00505e;
+}
+.mat-button.mat-info,
+.mat-raised-button.mat-info {
+  background-color: #cbf2f9;
+  color: #00505e;
+}
+
+.mat-button.mat-slategrey,
+.mat-raised-button.mat-slategrey {
+  color: slategrey;
+}
+
+
+.loading-spinner {
+  display: flex;
+  align-content: center;
+  align-items: center;
+}
+
+.avataradmin {
+  background-color: #3b53b0;
+}
+.avatardefault {
+  background-color: slategrey;
+}
+.avatarperm {
+  border-radius   : 50%;
+  width           : 42px;
+  height          : 42px;
+  display         : flex;
+  justify-content : center;
+  align-items     : center;
+
+  .initials {
+    color         : #FFFFFF;
+    font-size     : 16px;
+    line-height   : 14px;
+  }
+}

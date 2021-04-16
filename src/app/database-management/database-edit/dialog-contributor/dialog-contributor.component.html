@@ -1,0 +1,50 @@
+<h2 mat-dialog-title>{{modeEdition ? 'Modification du contributeur' : 'Ajout d\'un contributeur'}}</h2>
+
+<mat-dialog-content class="mat-typography">
+
+  <div *ngIf="! modeEdition">
+    <mat-tab-group
+      animationDuration="0ms"
+      (selectedTabChange)="selectedTabChange($event)"
+    >
+      <mat-tab label="Contributeur EPSI">
+        <app-epsi-contributor-form
+          (loginSelected)="onLoginSelect($event)"
+        ></app-epsi-contributor-form>
+      </mat-tab>
+      <mat-tab label="Contributeur Externe">
+        <app-other-contributor-form
+          (userSelected)="onUserSelect($event)"
+        ></app-other-contributor-form>
+      </mat-tab>
+    </mat-tab-group>
+    <br />
+  </div>
+  <div *ngIf="modeEdition">
+    <app-update-contributor-form
+      [updatePassword]="userIsOtherContributor"
+      [username]="userIsOtherContributor ? contributor.sqlLogin : contributor.userFullName"
+    ></app-update-contributor-form>
+  </div>
+
+  <mat-divider></mat-divider>
+  <h3>Sélectionner un type de permission</h3>
+  <app-permission-selection-list
+    [selectedId]="modeEdition ? contributor.permissionId : -1"
+    (permissionSelected)="selectPermission($event)"
+  ></app-permission-selection-list>
+
+  <mat-divider></mat-divider>
+  <mat-error *ngIf="errorHandlingEpsiContributor()">Vous devez sélectionner un compte EPSI</mat-error>
+  <mat-error *ngIf="errorHandlingOtherContributor()">Vous devez renseigner le login et le mot de passe</mat-error>
+  <mat-error *ngIf="errorHandlingPermission()">Vous devez sélectionner une permission</mat-error>
+</mat-dialog-content>
+
+<div mat-dialog-actions>
+  <div fxFlex=""></div>
+  <button mat-raised-button [mat-dialog-close]="undefined">Annuler</button>
+  <button mat-raised-button color="primary"
+          [disabled]="!isFormValid()"
+          [mat-dialog-close]="submit()"
+  >{{modeEdition? 'Modifier' : 'Ajouter'}}</button>
+</div>

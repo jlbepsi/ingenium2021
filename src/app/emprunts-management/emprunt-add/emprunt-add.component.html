@@ -1,0 +1,57 @@
+<app-navbar>
+
+  <mat-horizontal-stepper linear #stepper>
+    <mat-step label="Sélectionner le modèle">
+
+
+      <div class="row">
+        <div class="column"  *ngFor="let index of getTestArray()" >
+
+          <mat-card
+            (click)="onCardClick(index)" class="clickable"
+            matRipple
+            [class.selected]="isSelected === index"
+          >
+            Card Number {{ index }}
+          </mat-card>
+        </div>
+      </div>
+
+      <div>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </mat-step>
+
+    <mat-step [stepControl]="secondFormGroup" label="Date d'emprunt">
+      <form [formGroup]="secondFormGroup">
+        <mat-form-field>
+          <mat-label>Address</mat-label>
+          <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
+                 required>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+
+    <mat-step label="Lieu de l'emprunt">
+      <p>Le lieu.</p>
+
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </mat-step>
+
+    <mat-step label="Validation">
+      <p>You are now done.</p>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button (click)="stepper.reset()">Reset</button>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+
+</app-navbar>

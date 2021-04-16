@@ -1,0 +1,15 @@
+
+<mat-selection-list
+  (selectionChange)="onSelectionChange($event)"
+  [disabled]="disabled"
+  [multiple]="false"
+>
+  <mat-list-option
+    *ngFor="let server of list" [value]="server"
+    [selected]="server.id===selectedId"
+  >
+    <img matListAvatar src="assets/images/database/{{server.code.toLowerCase()}}.png"
+         alt="Base de données" />
+    <p matLine>{{server.name}}</p>
+  </mat-list-option>
+</mat-selection-list>

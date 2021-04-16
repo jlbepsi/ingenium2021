@@ -1,0 +1,46 @@
+<h2 mat-dialog-title>Ajout d'une base de donnée</h2>
+
+<mat-dialog-content class="mat-typography">
+  <h3>Sélectionner un compte</h3>
+  <mat-divider></mat-divider>
+  <app-server-selection-list
+    [list]="serversList"
+    (serverSelected)="changeServer($event)"
+  ></app-server-selection-list>
+  <mat-error *ngIf="errorHandlingDB()">Vous devez sélectionner un compte</mat-error>
+
+  <mat-expansion-panel >
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Pourquoi je ne vois pas tous les comptes ?
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <p>Cette liste n'affiche que les comptes pour lesquels :</p>
+    <ul>
+      <li>vous avez créé un identifiant</li>
+      <li>vous pouvez créer une base de données (Oracle ne le permet pas)</li>
+    </ul>
+  </mat-expansion-panel>
+
+  <br />
+  <div class="div_name">
+    <form [formGroup]="databaseForm">
+      <mat-form-field class="field-full-width">
+        <mat-label>Nom de la base de données</mat-label>
+        <input matInput
+               formControlName='name'>
+      </mat-form-field>
+      <mat-error *ngIf="errorHandling('required')">Le nom doit être renseigné</mat-error>
+      <mat-error *ngIf="errorHandling('minlength')">La longueur minimale est 6 caractères</mat-error>
+      <mat-error *ngIf="errorHandling('specialCharactersValidator')">Le nom ne doit pas comporter de caractères spéciaux</mat-error>
+    </form>
+  </div>
+</mat-dialog-content>
+
+<div mat-dialog-actions>
+  <button mat-raised-button [mat-dialog-close]="undefined">Annuler</button>
+  <button mat-raised-button color="primary"
+          [disabled]="!isFormValid()"
+          [mat-dialog-close]="submit()"
+  >Ajouter</button>
+</div>

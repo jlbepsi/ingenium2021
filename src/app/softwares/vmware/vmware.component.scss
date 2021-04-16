@@ -1,0 +1,28 @@
+//@import "~@angular/material/theming";
+//@include mat-core();
+
+.mat-card {
+  width: 280px;
+  height: 180px;
+}
+
+.mat-icon {
+  color: slategrey;
+  padding-right: 6px;
+}
+
+.stats {
+  display: flex;
+  align-items: center;
+  padding-top: 4px;
+}
+
+.leftText {
+  color: slategrey;
+  font-size: small;
+}
+.endText {
+  color: slategrey;
+  margin-left: auto;
+  font-size: small;
+}

@@ -1,0 +1,45 @@
+/*
+.admin {
+  border-radius   : 50%;
+  width           : 25px;
+  height          : 25px;
+  display         : flex;
+  justify-content : center;
+  align-items     : center;
+  background-color: #3b53b0;
+
+  .initials {
+    color         : #FFFFFF;
+    font-size     : 14px;
+    line-height   : 13px;
+    letter-spacing: 0.2625px;
+  }
+}
+
+.default {
+  border-radius   : 50%;
+  width           : 25px;
+  height          : 25px;
+  display         : flex;
+  justify-content : center;
+  align-items     : center;
+  background-color: slategrey;
+
+  .initials {
+    color         : #FFFFFF;
+    font-size     : 14px;
+    line-height   : 13px;
+    letter-spacing: 0.2625px;
+  }
+}*/
+.mat-chip.mat-avataradmin {
+  color: #3b53b0;
+  background-color: transparent;
+  border: 1px solid #3b53b0;
+}
+
+.mat-chip.mat-avatardefault {
+  color: slategrey;
+  background-color: transparent;
+  border: 1px solid slategrey;
+}

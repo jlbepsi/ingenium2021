@@ -1,0 +1,15 @@
+
+<form [formGroup]="loginForm">
+  <mat-form-field class="field-full-width">
+    <mat-label>Login</mat-label>
+    <input matInput
+           formControlName='login'
+           (change)="onChangeLogin($event)"
+    >
+  </mat-form-field>
+  <mat-error *ngIf="errorHandling('required')">Le login doit être renseigné</mat-error>
+  <mat-error *ngIf="errorHandling('minlength')">La longueur minimale est 6 caractères</mat-error>
+  <mat-error *ngIf="errorHandling('specialCharactersValidator')">Le login ne doit pas comporter de caractères spéciaux</mat-error>
+</form>
+
+<app-password-form (password)="onChangePassword($event)" ></app-password-form>

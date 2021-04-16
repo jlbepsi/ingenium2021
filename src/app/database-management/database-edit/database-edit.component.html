@@ -1,0 +1,143 @@
+<app-navbar>
+  <h2 class="mat-h3">
+    <button mat-icon-button (click)="goToList()">
+      <mat-icon aria-label="Accueil">arrow_back</mat-icon>
+    </button>
+    Modification de la base de données
+  </h2>
+
+  <section class="loading-spinner" *ngIf="processLoadRunning">
+    <mat-spinner diameter="25" ></mat-spinner>
+    <span>&nbsp; En cours de chargement ...</span>
+  </section>
+
+  <app-alert *ngIf="errorMessage.length>0" [type]="'danger'">{{ errorMessage }}</app-alert>
+
+  <div *ngIf="processLoadRunning==false && database !== null">
+    <table class="table-90-width">
+      <tr>
+        <td>
+          <mat-form-field class="field-full-width">
+            <mat-label>Nom de la base de données</mat-label>
+            <input matInput value="{{database.nomBd}}" disabled />
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field class="field-full-width">
+            <mat-label>Date de création</mat-label>
+            <input matInput value="{{database.dateCreation | date: 'mediumDate' }}" disabled />
+          </mat-form-field>
+        </td>
+      </tr>
+    </table>
+    <form [formGroup]="commentForm"
+          (ngSubmit)="onSubmitForm()">
+      <table class="table-90-width">
+        <tr>
+          <td [ngStyle]="{'width': '200px', 'vertical-align': 'baseline' }">
+            <button type="submit" mat-raised-button class="field-full-width align-top"
+                    color="primary"
+                    aria-label="Mettre à jour"
+                    [disabled]="!isFormValid()">
+              <mat-icon>published_with_changes</mat-icon>
+              Mettre à jour
+            </button>
+          </td>
+          <td>
+            <mat-form-field class="field-full-width">
+              <mat-label>Commentaire</mat-label>
+              <input matInput class="form-control" formControlName="comment" />
+            </mat-form-field>
+          </td>
+        </tr>
+      </table>
+    </form>
+
+    <table class="table-90-width">
+      <tr>
+        <td [ngStyle]="{'width': '200px', 'vertical-align': 'baseline' }">
+          <button mat-raised-button class="field-full-width align-top"
+                  color="slategrey"
+                  aria-label="Accès au serveur"
+                  (click)="openDialogServerAccess(database.server)">
+            <mat-icon>exit_to_app</mat-icon>
+            Accéder au serveur
+          </button>
+        </td>
+        <td>
+          <mat-form-field class="field-full-width">
+            <mat-label>Nom du serveur</mat-label>
+            <input matInput value="{{database.server.name}}" disabled />
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field class="field-full-width">
+            <mat-label>Adresse du serveur</mat-label>
+            <input matInput value="{{database.server.nomDns}}" disabled />
+          </mat-form-field>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <h2 class="mat-h3">Liste des contributeurs</h2>
+  <section class="loading-spinner" *ngIf="processLoadRunning">
+    <mat-spinner diameter="25" ></mat-spinner>
+    <span>Chargement en cours ...</span>
+  </section>
+
+  <button *ngIf="database !== null"
+          mat-raised-button color="primary"
+          (click)="createContributor()"
+  >
+    <mat-icon>add</mat-icon>
+    Nouveau contributeur
+  </button>
+
+  <table *ngIf="database !== null"
+         mat-table [dataSource]="dataSource"
+  >
+    <!-- Contributeur EPSI Column -->
+    <ng-container matColumnDef="userFullName" >
+      <th mat-header-cell *matHeaderCellDef > Contributeur EPSI </th>
+      <td mat-cell *matCellDef="let element"> {{element.userFullName === null ? "Non" : element.userFullName}} </td>
+    </ng-container>
+
+    <!-- Login Column -->
+    <ng-container matColumnDef="sqlLogin" >
+      <th mat-header-cell *matHeaderCellDef > Login </th>
+      <td mat-cell *matCellDef="let element"><b>{{element.sqlLogin}}</b></td>
+    </ng-container>
+
+    <!-- Permissions Column -->
+    <ng-container matColumnDef="permission" >
+      <th mat-header-cell *matHeaderCellDef > Permissions </th>
+      <td mat-cell *matCellDef="let element">
+        <app-database-permission [contributors]="[element]" [showPermission]="true"></app-database-permission>
+      </td>
+    </ng-container>
+
+    <!-- Action Column -->
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef>  </th>
+      <td mat-cell *matCellDef="let element">
+        <i>
+          <button *ngIf="canUpdate(element)" mat-icon-button matTooltip="Modifier le contributeur" color="primary"
+                  (click)="editContributor(element)"
+          >
+            <mat-icon aria-label="Editer">edit</mat-icon>
+          </button>
+
+          <button *ngIf="canDeleted(element)" mat-icon-button matTooltip="Supprimer le contributeur" color="warn"
+                  (click)="deleteContributor(element)"
+          >
+            <mat-icon aria-label="Supprimer">delete_forever</mat-icon>
+          </button>
+        </i>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</app-navbar>

@@ -1,0 +1,44 @@
+
+<mat-card class="mat-elevation-z4" >
+  <img height="60px" src="assets/images/database/{{ account.server.code.toLowerCase() }}.png"
+       alt="Compte base de données" />
+
+  <mat-card-header>
+    <mat-card-title>
+      <div *ngIf="account.sqlLogin===null">Aucun compte</div>
+      <div *ngIf="account.sqlLogin!==null">Login: {{account.sqlLogin}}</div>
+    </mat-card-title>
+    <mat-card-subtitle>Serveur : {{account.server.nomDns}}</mat-card-subtitle>
+    <mat-card-subtitle>
+      <div *ngIf="account.sqlLogin===null">&nbsp;</div>
+      <div *ngIf="account.sqlLogin!==null">Base de données : <b>{{ account.nbDatabases }}</b></div>
+    </mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-actions>
+    <div *ngIf="account.sqlLogin===null">
+      <div fxFlex></div>
+      <button mat-mini-fab color="primary"
+              matTooltip="Ajouter un compte"
+              aria-label="Ajouter un compte"
+              (click)="openDialogAddAccount(account.server)">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+    <div *ngIf="account.sqlLogin!==null">
+      <button mat-raised-button
+              color="slategrey"
+              aria-label="Accès au serveur"
+              (click)="openDialogServerAccess(account.server)">
+        <mat-icon>exit_to_app</mat-icon>
+        Accéder au serveur
+      </button>
+      <button mat-button color="slategrey"
+              matTooltip="Modifier le mot de passe"
+              aria-label="Modifier le mot de passe"
+              (click)="openDialogModifyPassword(account)">
+        <mat-icon>create</mat-icon>
+      </button>
+    </div>
+  </mat-card-actions>
+</mat-card>

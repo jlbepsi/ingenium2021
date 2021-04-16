@@ -1,0 +1,21 @@
+
+<div [ngStyle]="{'padding-top': '5px'}">
+  <app-alert [type]="'warning'">Seuls les étudiants ayant créé un compte sur ce serveur sont actif !</app-alert>
+
+  <mat-form-field class="field-full-width">
+    <mat-label>Classe</mat-label>
+    <mat-select (selectionChange)="onClasseChange($event)" >
+      <mat-option *ngFor="let classe of classes" value="{{ classe }}">{{ classe }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="field-full-width">
+    <mat-label>Membres</mat-label>
+    <mat-select
+      [disabled]="usersSelectDisabled"
+      (selectionChange)="onMembreChange($event)"
+    >
+      <mat-option *ngFor="let user of users" value="{{user.login}}" disabled="{{user.uidisabled}}" >{{ user.nomComplet }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>

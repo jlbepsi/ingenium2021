@@ -1,0 +1,45 @@
+<app-navbar>
+
+  <h2>Logiciels VMware</h2>
+  <mat-divider></mat-divider>
+
+  <div *ngIf="products.length === 0">
+    <h3>Aucun produit n'est disponible.</h3>
+  </div>
+
+  <div *ngIf="products.length !== 0">
+    <h3>Les licences sont renouvellées après la date d'expiration.</h3>
+
+
+    <div class="cardlist">
+      <div fxLayout="row wrap" fxLayoutGap="16px grid">
+        <div *ngFor="let product of products">
+          <mat-card class="mat-elevation-z4" >
+            <mat-card-header>
+              <div>
+                <img mat-card-image src="{{ product.imageUrl }}" alt="{{ product.urlUI }}">
+              </div>
+              <mat-card-title>{{ product.title }}</mat-card-title>
+              <mat-card-subtitle>{{ product.description }}</mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-content>
+              <div class="stats">
+                <mat-icon aria-hidden="false">vpn_key</mat-icon>
+                <div class="leftText" >{{ product.licensekey }}</div>
+                <mat-icon aria-hidden="false">calendar_today</mat-icon>
+                <div class="endText" >Expire le {{ product.enddate }}</div>
+              </div>
+              <div class="stats">
+                <mat-icon aria-hidden="false">get_app</mat-icon>
+                <div class="leftText" ><a href="{{ product.url }}" target="_blank">{{ product.urlUI }}</a></div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</app-navbar>
