@@ -23,19 +23,31 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { VmwareComponent } from './softwares/vmware/vmware.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { WebStorageComponent } from './web-storage/web-storage.component';
-import { NavbarComponent } from './share/navbar/navbar.component';
 import {HttpClientModule} from '@angular/common/http';
 import {LoginComponent} from './security/login/login.component';
 import {LoaderComponent} from './share/loader/loader.component';
-import { DialogConfirmationComponent } from './share/dialog-confirmation/dialog-confirmation.component';
-import {DatabaseManagementModule} from './database-management/database-management.module';
 import {RouterModule} from '@angular/router';
-import { SizeReadablePipe } from './share/size-readable.pipe';
+import {ShareModule} from './share/share.module';
+import {DatabaseManagementModule} from './database-management/database-management.module';
+import {EmpruntsManagementModule} from './emprunts-management/emprunts-management.module';
 
 @NgModule({
+  imports: [
+    BrowserModule,
+    FontAwesomeModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    RouterModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    AppRoutingModule,
+    AppMaterialModule,
+    ShareModule,
+    DatabaseManagementModule,
+    EmpruntsManagementModule,
+  ],
   declarations: [
     AppComponent,
-    NavbarComponent,
     PageNotFoundComponent,
     GithubComponent,
     IntellijComponent,
@@ -48,25 +60,11 @@ import { SizeReadablePipe } from './share/size-readable.pipe';
     WebStorageComponent,
     LoginComponent,
     LoaderComponent,
-    DialogConfirmationComponent,
-    SizeReadablePipe,
-  ],
-  imports: [
-    BrowserModule,
-    AppMaterialModule,
-    FontAwesomeModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    RouterModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    AppRoutingModule,
-    DatabaseManagementModule,
   ],
   providers: [{
     provide: LOCALE_ID,
     useValue: 'fr-FR'
   }],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

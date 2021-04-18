@@ -1,6 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {DatabaseServer} from '../model/database-server';
+import {DatabaseServer} from '../../share/model/database-server';
 
 export interface DialogData {
   nomComplet: string;

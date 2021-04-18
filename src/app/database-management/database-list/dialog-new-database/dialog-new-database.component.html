@@ -9,7 +9,7 @@
   ></app-server-selection-list>
   <mat-error *ngIf="errorHandlingDB()">Vous devez sélectionner un compte</mat-error>
 
-  <mat-expansion-panel >
+  <mat-expansion-panel  [expanded]="false">
     <mat-expansion-panel-header>
       <mat-panel-title>
         Pourquoi je ne vois pas tous les comptes ?

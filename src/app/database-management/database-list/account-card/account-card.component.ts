@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {DatabaseAccount} from '../../../share/model/database-account';
 import {DatabaseServer} from '../../../share/model/database-server';
 import {DialogServerAccessComponent} from '../dialog-server-access/dialog-server-access.component';
-import {DialogModifyPasswordComponent} from '../../../share/dialog-modify-password/dialog-modify-password.component';
+import {DialogModifyPasswordComponent} from '../../dialog-modify-password/dialog-modify-password.component';
 import {DialogAddAccountComponent} from '../dialog-add-account/dialog-add-account.component';
 import {MatDialog} from '@angular/material/dialog';
 
