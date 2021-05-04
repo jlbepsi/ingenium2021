@@ -116,7 +116,6 @@ export class DatabaseEditComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe( (contributor: DialogContributor) => {
-      console.log('editcontributor=', contributor);
       if (contributor !== undefined) {
         /*this.usersService.changePassword(login, newPassword).subscribe(
           data => {

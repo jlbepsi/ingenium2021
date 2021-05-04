@@ -1,26 +1,95 @@
 <app-navbar>
-  <div class="grid-container">
-    <h1 class="mat-h1">Dashboard</h1>
-    <mat-grid-list cols="2" rowHeight="350px">
-      <mat-grid-tile *ngFor="let card of cards | async" [colspan]="card.cols" [rowspan]="card.rows">
-        <mat-card class="dashboard-card">
-          <mat-card-header>
-            <mat-card-title>
-              {{card.title}}
-              <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
-                <mat-icon>more_vert</mat-icon>
-              </button>
-              <mat-menu #menu="matMenu" xPosition="before">
-                <button mat-menu-item>Expand</button>
-                <button mat-menu-item>Remove</button>
-              </mat-menu>
-            </mat-card-title>
-          </mat-card-header>
-          <mat-card-content class="dashboard-card-content">
-            <div>Card Content Here</div>
+  <h1 class="mat-h1">Dashboard</h1>
+
+
+  <app-alert *ngIf="errorMessage.length>0" [type]="'danger'">{{ errorMessage }}</app-alert>
+
+  <div >
+    <div fxLayout="row wrap" fxLayoutGap="grid">
+
+      <!-- Database -->
+      <mat-card>
+        <mat-card-content>
+          <div fxLayout="row wrap" fxLayoutGap="grid" >
+              <div class="dashboard-left dashboard-database" fxFlex="50">
+                <fa-icon [icon]="iconDatabase" size="5x"></fa-icon>
+              </div>
+              <div class="dashboard-right" fxFlex="50">
+                <p class="font-x-large" >{{infoDatabases}}</p>
+                <p class="font-grey" >Base de données</p>
+              </div>
+            </div>
           </mat-card-content>
+
+        <mat-divider></mat-divider>
+
+          <mat-card-actions>
+            <button mat-stroked-button (click)="redirectTo('database')">
+              Voir le détail
+              <mat-icon aria-label="Installation">chevron_right</mat-icon>
+            </button>
+          </mat-card-actions>
         </mat-card>
-      </mat-grid-tile>
-    </mat-grid-list>
-  </div>
+
+        <!-- WebStorage -->
+        <mat-card>
+          <mat-card-content>
+            <div fxLayout="row wrap" fxLayoutGap="grid" >
+              <div class="dashboard-left dashboard-webstorage" fxFlex="50">
+                <fa-icon [icon]="iconWebStorage" size="5x"></fa-icon>
+              </div>
+              <div class="dashboard-right" fxFlex="50">
+                <p class="font-x-large" >{{infoWebStorage}}</p>
+                <p class="font-grey" >Espace Web</p>
+              </div>
+            </div>
+          </mat-card-content>
+
+          <mat-divider></mat-divider>
+
+          <mat-card-actions>
+            <button mat-stroked-button (click)="redirectTo('webstorage')">
+              Voir le détail
+              <mat-icon aria-label="Installation">chevron_right</mat-icon>
+            </button>
+          </mat-card-actions>
+        </mat-card>
+
+        <!-- SuiviBTS -->
+        <mat-card *ngIf="isBts">
+          <mat-card-content>
+            <div fxLayout="row wrap" fxLayoutGap="grid" >
+              <div class="dashboard-left" fxFlex="50">
+                <fa-icon [icon]="iconSuiviBTS" size="5x"></fa-icon>
+              </div>
+              <div class="dashboard-right" fxFlex="50">
+                <p class="font-x-large" >Actif</p>
+                <p class="font-grey" >Suivi BTS</p>
+              </div>
+            </div>
+          </mat-card-content>
+
+          <mat-divider></mat-divider>
+
+          <mat-card-actions>
+            <button mat-stroked-button (click)="redirectTo('suivibts')" >
+              Voir le détail
+              <mat-icon aria-label="Installation">chevron_right</mat-icon>
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </div>
+    <br />
+
+    <h2>Mes sites</h2>
+    <p>Site <a href="https://aka.ms/devtoolsforteaching" target="_blank" rel="noopener noreferrer">Azure Dev Tools for Teaching (ADTT)</a> pour télécharger les versions de Windows, SQL Server, ...</p>
+    <p>Azure Dev Tools for Teaching vous permet de créer des bases de données, des sites web et bien d'autres fonctionnalités !</p>
+
+    <h2>Mes contacts</h2>
+    <ul>
+      <li>La majorité des services sont gérés par C&D. En cas de problèmes contacter le support C&D : <a href="mailto:support@reseau-cd.fr">support@reseau-cd.fr</a>.</li>
+      <li>Les imprimantes et le site Ingenium sont gérés par Montpellier : <a href="mailto:admin.reseau@montpellier-epsi.fr">administrateur réseau</a>.</li>
+    </ul>
+
 </app-navbar>

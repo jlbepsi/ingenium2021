@@ -12,17 +12,45 @@ import {DATABASE_MOCK} from '../share/model/database-mock.data';
 export class DatabaseService extends BaseApi<Database>{
 
   constructor(httpClient: HttpClient) {
-    super(httpClient, environment.databaseAccountApiURl);
+    super(httpClient, environment.databaseApiURl);
   }
 
   getDatabases(login: string): Observable<Database[]> {
-    /** TODO : Faire AccountService avec l'API */
-    return of(DATABASE_MOCK);
-    // return super.apiGetAllWithOption('login/' + login);
+    return super.apiGetAllWithOption('login/' + login);
   }
 
   getDatabase(id: number): Observable<Database> {
-    return of(DATABASE_MOCK.find(a => a.id === id));
-    // return super.apiGetId(id);
+    return super.apiGetIdWithOption(id.toString());
   }
+
+  /*
+  addDatabase(name, serverId, userLogin, userFullName) {
+    const newDatabase =
+      {
+        "serverId": serverId,
+        "nomBd": name,
+        "userLogin": userLogin,
+        "userFullName": userFullName
+      };
+
+    return super.apiPost(newDatabase);
+  }
+
+  updateDatabase(database, userLogin) {
+    const databaseUpdated =
+      {
+        "id": database.id,
+        "serverId": database.serverId,
+        "nomBd": database.nomBd,
+        "userLogin": userLogin,
+        "commentaire": database.Commentaire
+      };
+
+    return super.apiPut(databaseUpdated.id, databaseUpdated);
+  }
+
+  deleteDatabase(id) {
+    return super.apiDelete(id);
+  }
+   */
 }

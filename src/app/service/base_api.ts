@@ -4,14 +4,14 @@ import {AuthenticationService} from '../security/authentication.service';
 
 export default class BaseApi<T> {
 
-  private static getHttpOptions(): HttpHeaders {
+  protected static getHttpOptions(): HttpHeaders {
     return new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + AuthenticationService.getToken()
     });
   }
 
-  constructor(private httpClient: HttpClient, private domain: string) {
+  constructor(protected httpClient: HttpClient, private domain: string) {
   }
 
   apiGetAll(): Observable<T[]> {
@@ -26,12 +26,16 @@ export default class BaseApi<T> {
     );
   }
 
-  apiGetAllWithOption2(idOrUrl: string): Observable<T[]> {
-    return this.httpClient.get<T[]>(`${this.domain}/${idOrUrl}`);
-  }
-
   apiGetId(id: string): Observable<T> {
     return this.httpClient.get<T>(`${this.domain}/${id}`);
+  }
+
+  apiGetIdWithOption(id: string): Observable<T> {
+    return this.httpClient.get<T>(
+      this.getUrl(id), {
+        headers: BaseApi.getHttpOptions()
+      }
+    );
   }
 
   apiPost(data: any): Observable<T> {
@@ -71,7 +75,7 @@ export default class BaseApi<T> {
       });
   }*/
 
-  private getUrl(idOrUrl: string): string {
+  protected getUrl(idOrUrl: string): string {
     // return this.domain + (idOrUrl == null ? '' : '/' + idOrUrl);
     return `${this.domain}/${idOrUrl}`;
   }

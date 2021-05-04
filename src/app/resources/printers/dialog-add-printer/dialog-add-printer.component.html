@@ -1,0 +1,138 @@
+<h1 mat-dialog-title>Installer l'imprimante {{ data.title }}</h1>
+
+<mat-dialog-content class="mat-typography">
+  <mat-tab-group animationDuration="0ms">
+    <mat-tab label="Impression filaire">
+      <p><b>Attention: vous devez impérativement être connecté <u>en filaire</u>.</b></p>
+      <!-- Todo showImprimanteFilaire
+      -->
+      <div *ngIf="getOS()==='windows'">
+        <h3>Installation d'une imprimante avec Windows</h3>
+        <div>
+          <p>
+          Aller dans le menu <code>Menu Démarrer -> Périphériques et imprimantes -> Ajout d’imprimante -> Ajouter une imprimante réseau  -> L’imprimante que je veux n’est pas répertoriée</code><br />
+          Choisissez l’option "Ajouter une imprimante à l'aide d'une adresse TCP/IP ..."
+          </p>
+          <p>Entrez l'adresse IP <code>{{data.adresseip}}</code></p>
+
+          <h4>En cas de problème</h4>
+          <p>
+            Avec Windows 8.x, l'installation et/ou l'impression échoue parfois. Il faut relancer le "Spouleur d'impression".<br />
+            Pour relancer le "Spouleur d'impression":
+          </p>
+          <ul>
+            <li>Ouvrir la console des Services. (En ligne de commande, taper : <code>services.msc</code>)</li>
+            <li>Trouver dans la liste le "Spouleur d'impression"</li>
+            <li>Relancer le service</li>
+          </ul>
+        </div>
+      </div>
+
+      <div *ngIf="getOS()==='linux'">
+        <h3>Installation d'une imprimante avec Linux (exemple pour Ubuntu)</h3>
+        <div>
+          <p>Aller dans le menu <code>Paramètres</code> puis <code>Périphériques</code> puis ajouter l’imprimante</p>
+          <p>Vous devez voir apparaitre l’écran suivant :</p>
+          <p>Entrez l'adresse IP <code>{{data.adresseip}}</code> puis appuyer sur suivant.</p>
+          <p>Vous devez choisir les pilotes appropriés dans la base de données.</p>
+        </div>
+      </div>
+
+      <div *ngIf="getOS()==='mac'">
+        <h4>Installation d'une imprimante avec Mac</h4>
+        <p>Vous devez d'abord télécharger sur le site HP les drivers PCL 6 correspondant à l'imprimante :</p>
+        <ul>
+          <li><a href="https://support.hp.com/fr-fr/drivers/selfservice/hp-laserjet-enterprise-p3015-printer-series/3815797" target="_blank" rel="noopener noreferrer">HP 3010/3015 : Laserjet P3010</a></li>
+        </ul>
+        <p>Ensuite, vous faites une recherche d'imprimantes (ou indiquer l'adresse IP) puis vous l'installez.</p>
+
+      </div>
+
+    </mat-tab>
+
+    <mat-tab label="Impression Wifi">
+      <h3>Vous pouvez imprimer en Wifi (via le protocole IPP)</h3>
+
+      <div *ngIf="getOS()==='windows'">
+        <p>Vous devez d'abord <a href="/files/printers/{{ data.driverwindows }}" target="_blank" rel="noopener noreferrer">télécharger et installer le driver de l'imprimante</a>.</p>
+
+        <p>Installer l'imprimante sous Windows</p>
+        <ul>
+          <li>1 - Ouvrir le panneau de configuration</li>
+          <li>2 - Ajouter une imprimante</li>
+          <li>3 - Choisir "Je ne trouve pas l'imprimante ..." puis choisir l'option "Sélectionner une imprimante par son nom"</li>
+          <li>4 - Entrer l'addresse <code>http://imprimantes.montpellier.epsi.fr:631/printers/{{data.title}}</code>
+            <br />Exemple: <br /><img src="/assets/images/printers/hpwin_install.1.png" alt="Imprimantes"/>
+          </li>
+          <li>5 - Pour le driver, choisissez "Disque fourni" puis sélectionnez le répertoire d'installation du driver</li>
+          <li>6 - Dans la liste, choississez "HP LaserJet Pro M501 PCL-6 puis "OK" et terminer l'opération</li>
+        </ul>
+      </div>
+      <div *ngIf="getOS()==='linux'">
+        <p>Vous devez d'abord <a href="/assets/files/printers/{{data.driverlinux}}" target="_blank" rel="noopener noreferrer">télécharger le driver</a> de l'imprimante.</p>
+        <p>Installer l'imprimante sous Linux</p>
+        <ul>
+          <li>1 - Ouvrir <code>Paramètres</code> puis <code>Périphériques</code>. En bas de la fenêtre cliquer sur<code>Paramètres d'imprimantes supplémentaires</code></li>
+          <li>2 - Entrer l'addresse <code>http://imprimantes.montpellier.epsi.fr:631/printers/{{data.title}}</code></li>
+          <li>3 - Cliquer sur Ajouter, exemple:</li>
+          <li>4 - <img src="/assets/images/printers/hplinux_install.2.png"/> </li>
+          <li>5 - <img src="/assets/images/printers/hplinux_install.3.{{data.model}}.png"/> </li>
+          <li>6 - Terminez l'opération</li>
+        </ul>
+      </div>
+      <div *ngIf="getOS()==='mac'">
+        <p>Installer l'imprimante sous Mac</p>
+        <ul>
+          <li>1 - Ouvrir les paramètres</li>
+          <li>2 - Entrer l'addresse <code>http://imprimantes.montpellier.epsi.fr:631/printers/{{data.title}}</code></li>
+          <li>3 - Cliquer sur Ajouter</li>
+        </ul>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Impression Bureau Virtuel">
+      <h3>Procédure de connexion</h3>
+      Dans un premier temps, il faut installer le <a href="http://www.citrix.fr/downloads/citrix-receiver/receiver-easy-install/detect-my-device-and-install-receiver.html" target="_blank" rel="noopener noreferrer">plugin citrix receiver</a> .<br />
+      Une fois installé, vous pouvez vous connecter sur le site : <a href="https://cloudeduc.com" target="_blank" rel="noopener noreferrer">https://cloudeduc.com</a>.<br />
+      Informations de connexion :
+      <ul>
+        <li>Identifiant : <b>groupe-pedago\</b><i>votre login</i></li>
+        <li>Mot de passe: <i>votre mot de passe</i></li>
+      </ul>
+
+      <h3> Accéder à votre environnement de bureau</h3>
+      Vous arriverez par défaut sur une interface vous proposant de cliquer sur <b> « Adobe CC Workspace » </b>.<br />
+      <img src="/assets/images/bureauvirtuel/cloud1.png" alt="" />
+
+      <p>Vous aurez alors accès à tous vos fichiers et applications tels que la <b>suite Adobe</b></p>
+      <p>Il faut accepter l'utilisation de votre poste depuis Citrix</p>
+      <img src="/assets/images/bureauvirtuel/cloud2.png" alt="" /><br />
+      <p>Il faut aussi accepter l'accès aux documents de votre poste depuis Citrix</p>
+      <img src="/assets/images/bureauvirtuel/cloud3.png" alt="" /><br />
+
+      <p>Vous avez aussi <b>accès aux imprimantes</b> de l'école :</p>
+      <ul>
+        <li>ced-eptmp-m501 : <b>Croix-Verte</b></li>
+        <li>ced-eptmp-s5 : <b>Apothicaire</b></li>
+        <li>ced-eptmp-s6 : <b>Apothicaire</b></li>
+      </ul>
+      <p>Exemple d'impression depuis Adobe Reader</p>
+      <img src="/assets/images/bureauvirtuel/cloud4.png" alt="" /><br />
+
+      <h3>Assistance</h3>
+      <p>
+        Pour bénéficier du service Cloud, vous devez obligatoirement avoir un compte utilisateur sur cette infrastructure. <br />
+        Cette demande est faite par le service pédagogique de votre école. Les identifiants seront les mêmes que votre compte ecampus.<br /><br />
+        Si vous rencontrez des problèmes pour vous y connecter, vous pouvez  contacter <a href="mailto:support@campus-cd.net">support@campus-cd.net</a>.<br />
+        N’hésitez pas à faire des retours sur votre ressentie ainsi que sur les améliorations ou services que peut vous apporter C&D.<br />
+        Le lancement des applications peut mettre jusqu’à 1 minute pour se lancer suivant la performance de votre matériel et votre liaison Internet.
+      </p>
+    </mat-tab>
+
+  </mat-tab-group>
+</mat-dialog-content>
+
+<div mat-dialog-actions>
+  <div fxFlex></div>
+  <button mat-button [mat-dialog-close]="true">Fermer</button>
+</div>

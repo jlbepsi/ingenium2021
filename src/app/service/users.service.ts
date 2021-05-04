@@ -16,8 +16,7 @@ export class UsersService extends BaseApi<UserLdap> {
   }
 
   getUsersOfClass(classe: string): Observable<UserLdap[]> {
-    /** TODO enlevez l'appel */
-    return super.apiGetAllWithOption2('classe/' +  classe);
+    return super.apiGetAllWithOption('classe/' +  classe);
   }
 
 }

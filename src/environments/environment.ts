@@ -7,7 +7,9 @@ export const environment = {
   authenticationApiURl: 'https://users.ws.mydil.io/api/auth',
   usersApiURl: 'https://users.ws.mydil.io/api/users',
   webStorageApiUrl: 'https://storage.ws.montpellier.epsi.fr/api/folders',
-  databaseAccountApiURl: 'https://database.ws.montpellier.epsi.fr/api/database',
+  databaseAccountApiURl: 'https://database.ws.montpellier.epsi.fr/api/accounts',
+  databaseApiURl: 'https://database.ws.montpellier.epsi.fr/api/databases',
+  contributorApiURl: 'https://database.ws.montpellier.epsi.fr/api/contributors'
 
   /*
   authenticationApiURl: 'http://localhost:8081/api/auth',

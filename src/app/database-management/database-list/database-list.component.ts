@@ -11,6 +11,7 @@ import {Profile} from '../../share/model/profile';
 import {DialogNewDatabaseComponent, DialogNewDatabaseResult} from './dialog-new-database/dialog-new-database.component';
 import {DialogConfirmationComponent} from '../../share/dialog-confirmation/dialog-confirmation.component';
 import {Router} from '@angular/router';
+import {AuthenticationService} from '../../security/authentication.service';
 
 
 @Component({
@@ -38,8 +39,7 @@ export class DatabaseListComponent implements OnInit {
     private dialog: MatDialog,
     private snackBar: MatSnackBar
   ) {
-    /** TODO : Obtenir le profil connecté */
-    this.profile = PROFILE_MOCK;
+    this.profile = AuthenticationService.getProfile();
   }
 
   ngOnInit(): void {

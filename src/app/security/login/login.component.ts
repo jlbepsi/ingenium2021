@@ -40,10 +40,9 @@ export class LoginComponent implements OnInit {
   onSubmit(): void {
     if (this.form.valid) {
       this.processRunning = true;
-      this.authenticationService.loginWithRole(
+      this.authenticationService.login(
           this.form.get('userName').value,
           this.form.get('password').value,
-          'ROLE_SUPER_ADMIN'
       ).subscribe( () => {
           if (AuthenticationService.isLoggedIn()) {
             this.processRunning = false;

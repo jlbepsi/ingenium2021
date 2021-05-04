@@ -3,13 +3,6 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-
-.ng-fa-icon {
-  padding: 4px;
-  width: 24px;
-  height: 24px;
-}
-
 .field-full-width {
   width: 100%;
 }
@@ -48,8 +41,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   color: slategrey;
 }
 
-
-.loading-spinner {
+.align-items {
   display: flex;
   align-content: center;
   align-items: center;

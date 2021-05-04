@@ -1,16 +1,16 @@
 <div class="signin-content">
   <mat-card>
-    <mat-card-title>Gestion des utilisateurs</mat-card-title>
+    <mat-card-title>Ingenium</mat-card-title>
     <mat-card-content>
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <mat-form-field class="full-width-input">
-          <input matInput placeholder="User" formControlName="userName" required>
+          <input matInput placeholder="Identifiant" formControlName="userName" required>
           <mat-error *ngIf="isFieldInvalid('userName')">
             Login incorrect
           </mat-error>
         </mat-form-field>
         <mat-form-field class="full-width-input">
-          <input matInput type="password" placeholder="Password" formControlName="password" required>
+          <input matInput type="password" placeholder="Mot de passe" formControlName="password" required>
           <mat-error *ngIf="isFieldInvalid('password')">
             Mot de passe incorrect
           </mat-error>

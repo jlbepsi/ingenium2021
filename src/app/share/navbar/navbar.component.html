@@ -14,6 +14,7 @@
     <!-- This fills the remaining space of the current row -->
     <span class="fill-remaining-space"></span>
 
+    <div>{{profile.nom}} {{profile.prenom}} ({{profile.classe}})</div>
     <button mat-button (click)="logout()">
       <mat-icon>logout</mat-icon>
     </button>
@@ -43,11 +44,20 @@
           Base de données
         </a>
         <a mat-list-item
-           routerLink="/webstorage"
+           routerLink="/webstorage"isBts
            [routerLinkActive]="['active']"
         >
           <mat-icon matListIcon>language</mat-icon>
           Espace Web
+        </a>
+        <a *ngIf="profile.bts"
+           mat-list-item
+           href="https://newsuivippe.montpellier.epsi.fr/"
+           [routerLinkActive]="['active']"
+           target="_blank" rel="bookmark"
+        >
+          <mat-icon matListIcon>exit_to_app</mat-icon>
+          Suivi BTS
         </a>
         <a mat-list-item
            routerLink="/emprunt/list"
@@ -87,6 +97,23 @@
         >
           <fa-icon [icon]="faVMware"></fa-icon>
           VMware
+        </a>
+        <mat-divider></mat-divider>
+
+        <h2 matSubheader>Resources</h2>
+        <a mat-list-item
+           routerLink="/resources/printers"
+           [routerLinkActive]="['active']"
+        >
+          <mat-icon matListIcon>print</mat-icon>
+          Imprimantes
+        </a>
+        <a mat-list-item
+           routerLink="/resources/support"
+           [routerLinkActive]="['active']"
+        >
+          <mat-icon matListIcon>support_agent</mat-icon>
+          Support
         </a>
       </mat-nav-list>
     </mat-sidenav>

@@ -5,6 +5,9 @@ import { map, shareReplay } from 'rxjs/operators';
 
 import {  faServer, faFileCode } from '@fortawesome/free-solid-svg-icons';
 import {  faGithub, faMicrosoft } from '@fortawesome/free-brands-svg-icons';
+import {Router} from '@angular/router';
+import {AuthenticationService} from '../../security/authentication.service';
+import {Profile} from '../model/profile';
 
 
 @Component({
@@ -17,6 +20,7 @@ export class NavbarComponent {
   faGithub = faGithub;
   faVMware = faServer;
   faIntellij = faFileCode;
+  profile: Profile;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -24,9 +28,15 @@ export class NavbarComponent {
       shareReplay()
     );
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    private router: Router
+  ) {
+    this.profile = AuthenticationService.getProfile();
+  }
 
   logout(): void {
-    // TODO : Plus tard
+    AuthenticationService.logout();
+    this.router.navigate(['/login']);
   }
 }

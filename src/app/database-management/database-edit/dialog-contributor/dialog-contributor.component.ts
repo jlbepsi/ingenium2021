@@ -32,7 +32,7 @@ export class DialogContributorComponent implements OnInit {
       // Mode édition activé
       this.modeEdition = true;
       this.contributor.login = data.userLogin;
-      if (this.contributor.login === null) {
+      if (data.userFullName === null) {
         // Autre contributeur
         this.userIsOtherContributor = true;
         this.tabSelected =  TabIndex.OtherContributor;

@@ -1,7 +1,10 @@
 <app-navbar>
+
+  <app-alert *ngIf="errorMessage.length>0" [type]="'danger'">{{ errorMessage }}</app-alert>
+
   <h2>Mes comptes</h2>
 
-  <section class="loading-spinner" *ngIf="isLoadingAccounts">
+  <section class="align-items" *ngIf="isLoadingAccounts">
     <mat-spinner diameter="25" ></mat-spinner>
     <span>Chargement en cours ...</span>
   </section>
@@ -22,7 +25,7 @@
 
   <h2>Mes bases de données</h2>
 
-  <section class="loading-spinner" *ngIf="isLoadingDatabases">
+  <section class="align-items" *ngIf="isLoadingDatabases">
     <mat-spinner diameter="25" ></mat-spinner>
     <span>Chargement en cours ...</span>
   </section>

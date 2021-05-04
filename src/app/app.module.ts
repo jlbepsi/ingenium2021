@@ -16,7 +16,6 @@ import { AppMaterialModule } from './app-material.module';
 import { GithubComponent } from './softwares/github/github.component';
 import { IntellijComponent } from './softwares/intellij/intellij.component';
 import { MicrosoftComponent } from './softwares/microsoft/microsoft.component';
-import { SuivippeComponent } from './suivippe/suivippe.component';
 import { SupportComponent } from './resources/support/support.component';
 import { PrintersComponent } from './resources/printers/printers.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -30,6 +29,7 @@ import {RouterModule} from '@angular/router';
 import {ShareModule} from './share/share.module';
 import {DatabaseManagementModule} from './database-management/database-management.module';
 import {EmpruntsManagementModule} from './emprunts-management/emprunts-management.module';
+import { DialogAddPrinterComponent } from './resources/printers/dialog-add-printer/dialog-add-printer.component';
 
 @NgModule({
   imports: [
@@ -52,7 +52,6 @@ import {EmpruntsManagementModule} from './emprunts-management/emprunts-managemen
     GithubComponent,
     IntellijComponent,
     MicrosoftComponent,
-    SuivippeComponent,
     SupportComponent,
     PrintersComponent,
     DashboardComponent,
@@ -60,6 +59,7 @@ import {EmpruntsManagementModule} from './emprunts-management/emprunts-managemen
     WebStorageComponent,
     LoginComponent,
     LoaderComponent,
+    DialogAddPrinterComponent,
   ],
   providers: [{
     provide: LOCALE_ID,

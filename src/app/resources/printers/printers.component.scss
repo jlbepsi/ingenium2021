@@ -1,0 +1,28 @@
+
+.mat-card {
+  width: 380px;
+  height: 230px;
+}
+
+.mat-icon {
+  color: slategrey;
+  padding-right: 6px;
+}
+.mat-card-image {
+  width: 140px;
+}
+.stats {
+  display: flex;
+  align-items: center;
+  padding-top: 4px;
+}
+
+.leftText {
+  color: slategrey;
+  font-size: small;
+}
+.endText {
+  color: slategrey;
+  margin-left: 50px;
+  font-size: small;
+}
