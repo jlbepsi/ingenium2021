@@ -62,7 +62,7 @@ export default class BaseApi<T> {
       }
     );
   }
-  /*apiDeleteWithURL(idOrUrl: string, data: any): Observable<T>  {
+  apiDeleteWithURL(idOrUrl: string, data: any): Observable<T>  {
     return this.apiMethodWithData(idOrUrl, 'DELETE', data);
   }
 
@@ -73,10 +73,9 @@ export default class BaseApi<T> {
         body: data,
         headers: BaseApi.getHttpOptions()
       });
-  }*/
+  }
 
   protected getUrl(idOrUrl: string): string {
-    // return this.domain + (idOrUrl == null ? '' : '/' + idOrUrl);
-    return `${this.domain}/${idOrUrl}`;
+    return idOrUrl == null ? this.domain : `${this.domain}/${idOrUrl}`;
   }
 }

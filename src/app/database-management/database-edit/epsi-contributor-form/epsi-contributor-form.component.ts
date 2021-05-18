@@ -1,4 +1,4 @@
-import {EventEmitter, Component, OnInit, Output} from '@angular/core';
+import {EventEmitter, Component, OnInit, Output, Input} from '@angular/core';
 import {MatSelectChange} from '@angular/material/select';
 
 import {CLASSES} from '../../../share/model/classes';
@@ -6,6 +6,7 @@ import {UserLdap} from '../../../share/model/userldap';
 import {UsersService} from '../../../service/users.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {AccountService} from '../../../service/account.service';
+import {MatOption} from '@angular/material/core';
 
 @Component({
   selector: 'app-epsi-contributor-form',
@@ -19,6 +20,7 @@ export class EpsiContributorFormComponent implements OnInit {
   processLoadRunning = false;
   usersSelectDisabled = true;
 
+  @Input() serverId: number;
   @Output() loginSelected = new EventEmitter<string>();
 
   constructor(
@@ -31,8 +33,7 @@ export class EpsiContributorFormComponent implements OnInit {
     this.classes = CLASSES;
 
     this.processLoadRunning = true;
-    /** TODO : Récupérer l'id du server de BDD */
-    this.accountService.getLoginServerAccounts(6).subscribe(
+    this.accountService.getLoginServerAccounts(this.serverId).subscribe(
       data => {
         this.loginServerAccounts = data;
         this.processLoadRunning = false;
@@ -60,13 +61,13 @@ export class EpsiContributorFormComponent implements OnInit {
   }
 
   onMembreChange(selectChange: MatSelectChange): void {
-    this.loginSelected.emit(selectChange.value);
+    this.loginSelected.emit(`${selectChange.value}-${(selectChange.source.selected as MatOption).viewValue}`);
   }
 
   private updateUsersList(users: UserLdap[]): void {
     this.usersSelectDisabled = true;
 
-    // On met l'attribut active à faux pour tout le monde
+    // On met l'attribut disable à vrai pour tout le monde
     users.forEach( user => user.uidisabled = true);
     // Pour chaque utilisateur du serveur, on met l'attribut active à vrai
     this.loginServerAccounts.forEach( (login => {

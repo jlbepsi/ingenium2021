@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>{{ data.title }}</h2>
+
+<mat-dialog-content class="mat-typography">
+  <div [innerHTML]="data.message"></div>
+</mat-dialog-content>
+<br />
+
+<div mat-dialog-actions>
+  <div fxFlex></div>
+  <button mat-raised-button color="primary" [mat-dialog-close]="true">
+    Fermer
+  </button>
+</div>
+

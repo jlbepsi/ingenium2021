@@ -3,8 +3,7 @@ import BaseApi from './base_api';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {Observable, of} from 'rxjs';
-import {DatabaseAccount} from '../share/model/database-account';
-import {LOGINSERVERMYSQL} from '../share/model/loginservermysql4';
+import {DatabaseAccount, DatabaseAccountApiModel} from '../share/model/database-account';
 
 @Injectable({
   providedIn: 'root'
@@ -25,47 +24,21 @@ export class AccountService extends BaseApi<DatabaseAccount>{
   getLoginServerAccounts(serverId: number): Observable<string[]> {
     // problème avec le type de retour
     return this.httpClient.get<string[]>(
-      this.getUrl(serverId.toString()), {
+      this.getUrl('serverid/' + serverId.toString()), {
         headers: BaseApi.getHttpOptions()
       }
     );
   }
 
-  /*
-  getAccount(id) {
-    return super.apiGet(id);
+  addAccount(account: DatabaseAccountApiModel): Observable<DatabaseAccount> {
+    return super.apiPost(account);
   }
 
-  addAccount(account) {
-    const newAccount =
-      {
-        "serverId": account.serverId,
-        "userLogin": account.user,
-        "password": account.password,
-      };
-
-    return super.apiPost(newAccount);
+  updateAccount(account: DatabaseAccountApiModel): Observable<object> {
+    return super.apiPut(account.serverId.toString(), account);
   }
 
-  updateAccount(account) {
-    const accountUpdated =
-      {
-        "serverId": account.serverId,
-        "userLogin": account.user,
-        "password": account.password,
-      };
-
-    return super.apiPut(accountUpdated.serverId, accountUpdated);
+  deleteAccount(accountDeleted: DatabaseAccountApiModel): Observable<object> {
+    return super.apiDeleteWithURL(accountDeleted.serverId.toString(), accountDeleted);
   }
-
-  deleteAccount(account) {
-    const accountDeleted =
-      {
-        "serverId": account.serverId,
-        "userLogin": account.user,
-      };
-
-    return super.apiDeleteWithURL(accountDeleted.serverId, accountDeleted);
-  }
-   */
 }

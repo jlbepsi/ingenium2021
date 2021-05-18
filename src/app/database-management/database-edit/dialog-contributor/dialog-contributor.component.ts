@@ -13,6 +13,11 @@ export interface DialogContributor {
 }
 enum TabIndex { EpsiContributor, OtherContributor}
 
+export interface DialogDataContributor {
+  serverId: number;
+  user: DatabaseUser;
+}
+
 @Component({
   selector: 'app-dialog-new-contributor',
   templateUrl: './dialog-contributor.component.html',
@@ -20,33 +25,33 @@ enum TabIndex { EpsiContributor, OtherContributor}
 })
 export class DialogContributorComponent implements OnInit {
 
-  contributor: DialogContributor = {login: '', userFullName: '', sqlLogin: '', password: '', permissionId: 0};
+  contributor: DialogContributor = {login: '', userFullName: null, sqlLogin: '', password: '', permissionId: 0};
   tabSelected = TabIndex.EpsiContributor;
   modeEdition = false;
   userIsOtherContributor: boolean;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: DatabaseUser
+    @Inject(MAT_DIALOG_DATA) public data: DialogDataContributor
   ) {
-    if (data !== null) {
+    if (data.user !== null) {
       // Mode édition activé
       this.modeEdition = true;
-      this.contributor.login = data.userLogin;
-      if (data.userFullName === null) {
+      this.contributor.login = data.user.userLogin;
+      if (data.user.userFullName === null) {
         // Autre contributeur
         this.userIsOtherContributor = true;
         this.tabSelected =  TabIndex.OtherContributor;
-        this.contributor.sqlLogin = data.sqlLogin;
+        this.contributor.sqlLogin = data.user.sqlLogin;
         this.contributor.userFullName = null;
       } else {
         // Epsi contributeur
         this.userIsOtherContributor = false;
         this.tabSelected =  TabIndex.EpsiContributor;
         this.contributor.sqlLogin = null;
-        this.contributor.userFullName = data.userFullName;
+        this.contributor.userFullName = data.user.userFullName;
       }
       // Aucun password initial
-      this.contributor.permissionId = data.groupType;
+      this.contributor.permissionId = data.user.groupType;
     }
   }
 
@@ -66,8 +71,11 @@ export class DialogContributorComponent implements OnInit {
   }
 
   onLoginSelect(selected: string): void {
+    // selected = login-userFullName car Utilisateur Epsi
+    const position = selected.indexOf('-');
     // Utilisateur EPSI
-    this.contributor.login = selected;
+    this.contributor.login = selected.substring(0, position);
+    this.contributor.userFullName = selected.substring(position + 1);
     this.contributor.sqlLogin = null;
     this.contributor.password = null;
   }
@@ -75,6 +83,7 @@ export class DialogContributorComponent implements OnInit {
   onUserSelect(contributorResult: DialogContributor): void {
     // Autre Utilisateur
     this.contributor.login = null;
+    this.contributor.userFullName = null;
     this.contributor.sqlLogin = contributorResult.sqlLogin;
     this.contributor.password = contributorResult.password;
   }

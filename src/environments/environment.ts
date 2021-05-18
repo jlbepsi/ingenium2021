@@ -7,14 +7,21 @@ export const environment = {
   authenticationApiURl: 'https://users.ws.mydil.io/api/auth',
   usersApiURl: 'https://users.ws.mydil.io/api/users',
   webStorageApiUrl: 'https://storage.ws.montpellier.epsi.fr/api/folders',
+
+  /*
+  databaseAccountApiURl: 'http://localhost:8070/api/accounts',
+  databaseApiURl: 'http://localhost:8070/api/databases',
+  contributorApiURl: 'http://localhost:8070/api/contributors',
+  */
+
+  databaseAccountApiURl: 'http://localhost:5000/api/accounts',
+  databaseApiURl: 'http://localhost:5000/api/databases',
+  contributorApiURl: 'http://localhost:5000/api/contributors',
+
+  /*
   databaseAccountApiURl: 'https://database.ws.montpellier.epsi.fr/api/accounts',
   databaseApiURl: 'https://database.ws.montpellier.epsi.fr/api/databases',
   contributorApiURl: 'https://database.ws.montpellier.epsi.fr/api/contributors'
-
-  /*
-  authenticationApiURl: 'http://localhost:8081/api/auth',
-  usersApiURl: 'http://localhost:8081/api/users',
-  webStorageApiUrl: 'http://localhost:8082/api/folders',
   */
 };
 

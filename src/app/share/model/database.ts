@@ -15,3 +15,12 @@ export interface Database {
   users: DatabaseUser[];
   // contributors: Contributor[];
 }
+
+export interface DatabaseApiModel {
+  Id: number;
+  ServerId: number;
+  NomBD: string;
+  UserLogin: string;
+  UserFullName: string,
+  Commentaire: string;
+}

@@ -9,6 +9,7 @@
     >
       <mat-tab label="Contributeur EPSI">
         <app-epsi-contributor-form
+          [serverId]="data.serverId"
           (loginSelected)="onLoginSelect($event)"
         ></app-epsi-contributor-form>
       </mat-tab>

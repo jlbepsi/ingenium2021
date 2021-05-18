@@ -1,7 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
-import {Database} from '../../share/model/database';
+import {ActivatedRoute, Data, Router} from '@angular/router';
+import {Database, DatabaseApiModel} from '../../share/model/database';
 import {DatabaseServer} from '../../share/model/database-server';
 import {DialogServerAccessComponent} from '../database-list/dialog-server-access/dialog-server-access.component';
 import {MatDialog} from '@angular/material/dialog';
@@ -9,7 +9,12 @@ import {MatTable, MatTableDataSource} from '@angular/material/table';
 import {DatabaseService} from '../../service/database.service';
 import {DatabaseUser} from '../../share/model/database-user';
 import {DialogConfirmationComponent} from '../../share/dialog-confirmation/dialog-confirmation.component';
-import {DialogContributorComponent, DialogContributor} from './dialog-contributor/dialog-contributor.component';
+import {DialogContributorComponent, DialogContributor, DialogDataContributor} from './dialog-contributor/dialog-contributor.component';
+import {AuthenticationService} from '../../security/authentication.service';
+import {SnackbarTpe} from '../../share/model/snackbar-type';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {ContributorsService} from '../../service/contributors.service';
+import {Profile} from '../../share/model/profile';
 
 @Component({
   selector: 'app-database-edit',
@@ -17,6 +22,18 @@ import {DialogContributorComponent, DialogContributor} from './dialog-contributo
   styleUrls: ['./database-edit.component.scss']
 })
 export class DatabaseEditComponent implements OnInit {
+
+  constructor(
+    private databasesService: DatabaseService,
+    private contributorsService: ContributorsService,
+    protected route: ActivatedRoute,
+    private fb: FormBuilder,
+    private router: Router,
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
+  ) {
+    this.profile = AuthenticationService.getProfile();
+  }
 
   database: Database = null;
   // Nombre de comptes Admin de la base de données
@@ -34,13 +51,16 @@ export class DatabaseEditComponent implements OnInit {
   dataSource = new MatTableDataSource<DatabaseUser>( []);
   @ViewChild(MatTable, { static: false, read: ElementRef }) table: ElementRef;
 
-  constructor(
-    private databasesService: DatabaseService,
-    protected route: ActivatedRoute,
-    private fb: FormBuilder,
-    private router: Router,
-    private dialog: MatDialog,
-  ) { }
+  private profile: Profile;
+
+  private static compareUsers(u1: DatabaseUser, u2: DatabaseUser): number {
+    if (u1.groupType === u2.groupType) {
+      return (u1.userFullName === null ? u1.sqlLogin.toLowerCase() : u1.userFullName).localeCompare(
+        (u2.userFullName === null ? u2.sqlLogin.toLowerCase() : u2.userFullName)
+      );
+    }
+    return u1.groupType - u2.groupType;
+  }
 
   ngOnInit(): void {
     // Obtention de la base de données
@@ -54,21 +74,29 @@ export class DatabaseEditComponent implements OnInit {
   }
 
   onSubmitForm(): void {
-    // TODO
     this.processValidateRunning = true;
-    alert(this.commentForm.controls.comment.value);
-    /*this.usersService.updateUser(this.getUserFromFormControl()).subscribe(
+    const databaseModel: DatabaseApiModel = {
+      Id: this.database.id,
+      NomBD: this.database.nomBd,
+      ServerId: this.database.server.id,
+      UserLogin: this.profile.sub,
+      UserFullName: this.profile.nom + ' ' + this.profile.prenom,
+      Commentaire: this.commentForm.get('comment').value
+    };
+    this.databasesService.updateDatabase(databaseModel).subscribe(
       data => {
         this.processValidateRunning = false;
         this.errorMessage = '';
-        this.snackBar.open('Utilisateur modifié !', 'X');
+        this.showSnackbar('Commentaire modifié !', SnackbarTpe.success);
+        // Mise à jour du commantaire pour la méthode isFormValid
+        this.database.commentaire = databaseModel.Commentaire;
       },
       error => {
         this.processValidateRunning = false;
-        this.errorMessage = 'Une erreur est survenue dans la modification !';
-        this.snackBar.open('Utilisateur non modifié !', 'X');
+        this.errorMessage = 'Impossible de modifier le commentaire';
+        this.showSnackbar('Modification impossible !', SnackbarTpe.danger);
       }
-    );*/
+    );
   }
 
   goToList(): void {
@@ -91,51 +119,90 @@ export class DatabaseEditComponent implements OnInit {
   }
 
   createContributor(): void {
+    const dialogData: DialogDataContributor = {
+      serverId: this.database.server.id,
+      user: null
+    };
     const dialogRef = this.dialog.open(DialogContributorComponent, {
+      data: dialogData
     });
 
     dialogRef.afterClosed().subscribe( (contributor: DialogContributor) => {
-      console.log('createContributor=', contributor);
+      // console.log('createContributor=', contributor);
       if (contributor !== undefined) {
-        /*this.usersService.changePassword(login, newPassword).subscribe(
+        const newContributor: DatabaseUser = {
+          dbId: this.database.id,
+          userLogin: contributor.sqlLogin,
+          sqlLogin: contributor.sqlLogin,
+          password: contributor.password,
+          userFullName: contributor.userFullName,
+          groupType: contributor.permissionId,
+          addedByUserLogin: this.profile.sub,
+          canBeDeleted: true,
+          canBeUpdated: true
+        };
+        this.contributorsService.addContributor(newContributor).subscribe(
           data => {
-            this.showSnackbar('Modification effectuée !', 'X');
+            // Ajout
+            this.database.users.push(data);
+            // Tri par type puis par nom
+            this.database.users.sort((dgu1, dgu2) => DatabaseEditComponent.compareUsers(dgu1, dgu2));
+            // Mise à jour dans la table
+            this.dataSource.data = this.database.users;
+
+            this.showSnackbar('Contributeur ajouté !', SnackbarTpe.success);
           },
           error => {
-            this.errorMessage = 'Impossible de modifier le mot de passe';
-            this.showSnackbar('Modification impossible !', 'X');
+            this.errorMessage = 'Impossible d\'ajouter le contributeur';
+            this.showSnackbar('Ajout impossible !', SnackbarTpe.danger);
           }
-        );*/
+        );
       }
     });
   }
 
   editContributor(databaseUser: DatabaseUser): void {
+    const dialogData: DialogDataContributor = {
+      serverId: this.database.server.id,
+      user: databaseUser
+    };
     const dialogRef = this.dialog.open(DialogContributorComponent, {
-      data: databaseUser
+      data: dialogData
     });
 
     dialogRef.afterClosed().subscribe( (contributor: DialogContributor) => {
       if (contributor !== undefined) {
-        /*this.usersService.changePassword(login, newPassword).subscribe(
+        this.contributorsService.modifyContributor(databaseUser).subscribe(
           data => {
-            this.showSnackbar('Modification effectuée !', 'X');
+            // Modification
+            const contributorUpdated = this.database.users.find(c => c.sqlLogin === contributor.sqlLogin);
+            contributorUpdated.groupType = contributor.permissionId;
+            // Tri par type puis par nom
+            this.database.users.sort((dgu1, dgu2) => DatabaseEditComponent.compareUsers(dgu1, dgu2));
+            // Mise à jour dans la table
+            this.dataSource.data = this.database.users;
+
+            this.showSnackbar('Contributeur modifié !', SnackbarTpe.success);
           },
           error => {
-            this.errorMessage = 'Impossible de modifier le mot de passe';
-            this.showSnackbar('Modification impossible !', 'X');
+            this.errorMessage = 'Impossible de modififer le contributeur';
+            this.showSnackbar('Modification impossible !', SnackbarTpe.danger);
           }
-        );*/
+        );
       }
     });
   }
 
   deleteContributor(databaseUser: DatabaseUser): void {
+    let contributorName = databaseUser.userLogin;
+    if (databaseUser.userFullName !== null && databaseUser.userFullName.length > 0) {
+      contributorName += ' (' + databaseUser.userFullName + ')';
+    }
     const dialogRef = this.dialog.open(DialogConfirmationComponent, {
       data: {
         title: 'Suppression du contributeur',
         buttonTitle: 'SUPPRIMER',
-        message: `Supprimer le contributeur <b>'${databaseUser.userFullName}'</b> ?`,
+        message: `Supprimer le contributeur <b>'${contributorName}'</b> ?`,
         buttonStyle: 'danger',
         buttonIconName: 'delete_forever'
       }
@@ -143,18 +210,28 @@ export class DatabaseEditComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe( (doDelete: boolean) => {
       if (doDelete) {
-        alert('suppression contributeur=' + databaseUser.sqlLogin);
-        /*this.usersService.changePassword(login, newPassword).subscribe(
+        this.contributorsService.deleteContributor(databaseUser.sqlLogin, databaseUser).subscribe(
           data => {
-            this.showSnackbar('Modification effectuée !', 'X');
+            this.database.users = this.database.users.filter(user => user.sqlLogin !== databaseUser.sqlLogin);
+            // Mise à jour dans la table
+            this.dataSource.data = this.database.users;
+            this.showSnackbar('Contributeur supprimé !', SnackbarTpe.success);
           },
           error => {
-            this.errorMessage = 'Impossible de modifier le mot de passe';
-            this.showSnackbar('Modification impossible !', 'X');
+            this.errorMessage = 'Impossible de supprimer le contributeur';
+            this.showSnackbar('Suppression impossible !', SnackbarTpe.danger);
           }
-        );*/
+        );
       }
     });
+  }
+
+  canUpdate(user: DatabaseUser): boolean {
+    return user.canBeUpdated && (user.groupType !== 1 || this.cptAdmins > 1);
+  }
+
+  canDeleted(user: DatabaseUser): boolean {
+    return user.canBeDeleted && (user.groupType !== 1 || this.cptAdmins > 1);
   }
 
   private getDatabase(): void {
@@ -172,6 +249,8 @@ export class DatabaseEditComponent implements OnInit {
             this.cptAdmins++;
           }
         });
+        // Tri par type puis par nom
+        data.users.sort((dgu1, dgu2) => DatabaseEditComponent.compareUsers(dgu1, dgu2));
         this.database = data;
         this.dataSource.data = data.users;
         this.commentForm.controls.comment.setValue(this.database.commentaire);
@@ -184,12 +263,9 @@ export class DatabaseEditComponent implements OnInit {
     );
   }
 
-  canUpdate(user: DatabaseUser): boolean {
-    return user.canBeUpdated && (user.groupType !== 1 || this.cptAdmins > 1);
-  }
-
-  canDeleted(user: DatabaseUser): boolean {
-    return user.canBeDeleted && (user.groupType !== 1 || this.cptAdmins > 1);
-    // return user.canBeDeleted && !(user.groupType === 1 && this.cptAdmins <= 1);
+  private showSnackbar(message: string, type: string): void {
+    this.snackBar.open(message, 'Fermer', {
+      panelClass: [type]
+    });
   }
 }

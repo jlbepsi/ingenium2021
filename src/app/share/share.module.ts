@@ -10,6 +10,7 @@ import {DialogConfirmationComponent} from './dialog-confirmation/dialog-confirma
 import {SizeReadablePipe} from './size-readable.pipe';
 import {RouterModule} from '@angular/router';
 import {PasswordFormComponent} from './password-form/password-form.component';
+import { DialogInformationComponent } from './dialog-information/dialog-information.component';
 
 
 
@@ -35,6 +36,7 @@ import {PasswordFormComponent} from './password-form/password-form.component';
     DialogConfirmationComponent,
     PasswordFormComponent,
     SizeReadablePipe,
+    DialogInformationComponent,
   ],
 })
 export class ShareModule { }

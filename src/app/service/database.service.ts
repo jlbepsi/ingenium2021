@@ -3,8 +3,8 @@ import BaseApi from './base_api';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {Observable, of} from 'rxjs';
-import {Database} from '../share/model/database';
-import {DATABASE_MOCK} from '../share/model/database-mock.data';
+
+import {Database, DatabaseApiModel} from '../share/model/database';
 
 @Injectable({
   providedIn: 'root'
@@ -23,34 +23,15 @@ export class DatabaseService extends BaseApi<Database>{
     return super.apiGetIdWithOption(id.toString());
   }
 
-  /*
-  addDatabase(name, serverId, userLogin, userFullName) {
-    const newDatabase =
-      {
-        "serverId": serverId,
-        "nomBd": name,
-        "userLogin": userLogin,
-        "userFullName": userFullName
-      };
-
+  addDatabase(newDatabase: DatabaseApiModel): Observable<Database> {
     return super.apiPost(newDatabase);
   }
 
-  updateDatabase(database, userLogin) {
-    const databaseUpdated =
-      {
-        "id": database.id,
-        "serverId": database.serverId,
-        "nomBd": database.nomBd,
-        "userLogin": userLogin,
-        "commentaire": database.Commentaire
-      };
-
-    return super.apiPut(databaseUpdated.id, databaseUpdated);
+  updateDatabase(databaseUpdated: DatabaseApiModel): Observable<object> {
+    return super.apiPut(databaseUpdated.Id.toString(), databaseUpdated);
   }
 
-  deleteDatabase(id) {
-    return super.apiDelete(id);
+  deleteDatabase(id: number): Observable<Database> {
+    return super.apiDelete(id.toString());
   }
-   */
 }

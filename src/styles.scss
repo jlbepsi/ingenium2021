@@ -10,6 +10,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   width: 90%;
 }
 
+.fill-remaining-space {
+  /* This fills the remaining space, by using flexbox.
+     Every toolbar row uses a flexbox row layout. */
+  flex: 1 1 auto;
+}
+
 .mat-button.mat-danger,
 .mat-raised-button.mat-danger {
   background-color: #f6403e;
@@ -66,4 +72,28 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     font-size     : 16px;
     line-height   : 14px;
   }
+}
+
+/*
+  CSS pour les snackbar de l'application
+ */
+snack-bar-container.snackbarColorSuccess {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+snack-bar-container.snackbarColorWarning {
+  color: #856404;
+  background-color: #fff3cd;
+  border-color: #ffeeba;
+}
+snack-bar-container.snackbarColorInfo {
+  color: #0c5460;
+  background-color: #d1ecf1;
+  border-color: #bee5eb;
+}
+snack-bar-container.snackbarColorDanger {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
 }

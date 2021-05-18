@@ -1,29 +1,28 @@
 import { Injectable } from '@angular/core';
 import BaseApi from './base_api';
 import {HttpClient} from '@angular/common/http';
+import {DatabaseUser} from '../share/model/database-user';
 import {environment} from '../../environments/environment';
-import {Contributor} from '../share/model/Contributor';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ContributorsService extends BaseApi<Contributor> {
+export class ContributorsService extends BaseApi<DatabaseUser> {
 
   constructor(httpClient: HttpClient) {
     super(httpClient, environment.contributorApiURl);
   }
 
-  /*
-  addContributor(newContributor) {
-    return super.apiPost(newContributor);
+  addContributor(contributor: DatabaseUser): Observable<DatabaseUser> {
+    return super.apiPost(contributor);
   }
 
-  modifyContributor(contributor) {
+  modifyContributor(contributor: DatabaseUser): Observable<object> {
     return super.apiPut(contributor.sqlLogin, contributor);
   }
 
-  deleteContributor(loginsql, contributor) {
-    return super.apiDeleteWithURL(loginsql, contributor)
+  deleteContributor(loginsql: string, contributor: DatabaseUser): Observable<DatabaseUser> {
+    return super.apiDeleteWithURL(loginsql, contributor);
   }
-   */
 }

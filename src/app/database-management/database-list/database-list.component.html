@@ -16,7 +16,12 @@
   <div>
     <div fxLayout="row wrap" fxLayoutGap="16px grid">
       <div *ngFor="let account of accounts">
-        <app-account-card [account]="account" ></app-account-card>
+        <app-account-card
+          [account]="account"
+          (addAccount)="onAddAccount($event)"
+          (modifyPasswordAccount)="onModifyPasswordAccount($event)"
+          (deleteAccount)="onDeleteAccount($event)"
+        ></app-account-card>
 
       </div>
     </div>

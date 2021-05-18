@@ -6,3 +6,10 @@ export interface DatabaseAccount {
   server: DatabaseServer;
   nbDatabases: number;
 }
+
+
+export interface DatabaseAccountApiModel {
+  serverId: number;
+  userLogin: string;
+  password: string;
+}

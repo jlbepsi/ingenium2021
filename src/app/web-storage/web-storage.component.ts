@@ -22,7 +22,6 @@ export class WebStorageComponent implements OnInit {
   ngOnInit(): void {
     this.isLoading = true;
 
-    /** TODO : obtenir le profil */
     this.login = AuthenticationService.getProfile().sub;
     this.url += this.login;
 
