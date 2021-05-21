@@ -12,8 +12,8 @@ export const environment = {
   databaseAccountApiURl: 'http://localhost:8070/api/accounts',
   databaseApiURl: 'http://localhost:8070/api/databases',
   contributorApiURl: 'http://localhost:8070/api/contributors',
-  */
 
+  /* */
   databaseAccountApiURl: 'http://localhost:5000/api/accounts',
   databaseApiURl: 'http://localhost:5000/api/databases',
   contributorApiURl: 'http://localhost:5000/api/contributors',

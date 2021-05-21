@@ -52,7 +52,7 @@ export class AccountCardComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe( (newPassword: string) => {
       if (newPassword !== undefined && newPassword.length > 0) {
-        console.log('update password with ' + newPassword);
+        // console.log('update password with ' + newPassword);
         const newAccount: DatabaseAccountApiModel = {
           serverId: this.account.server.id,
           userLogin: '',
@@ -71,7 +71,7 @@ export class AccountCardComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe( (password: string) => {
-      console.log('password=', password);
+      // console.log('password=', password);
       if (password !== undefined) {
         const newAccount: DatabaseAccountApiModel = {
           serverId: this.account.server.id,

@@ -36,8 +36,17 @@ export class DatabaseEditComponent implements OnInit {
   }
 
   database: Database = null;
-  // Nombre de comptes Admin de la base de données
-  cptAdmins = 0;
+
+  get nbAdmins(): number {
+    // Nombre de compte Administrateur dans la base de donneés
+    let nbAdmins = 0;
+    this.dataSource.data.forEach((contributor) => {
+      if (contributor.groupType === 1) {
+        nbAdmins++;
+      }
+    });
+    return nbAdmins;
+  }
 
   processLoadRunning = false;
   processValidateRunning = false;
@@ -55,8 +64,8 @@ export class DatabaseEditComponent implements OnInit {
 
   private static compareUsers(u1: DatabaseUser, u2: DatabaseUser): number {
     if (u1.groupType === u2.groupType) {
-      return (u1.userFullName === null ? u1.sqlLogin.toLowerCase() : u1.userFullName).localeCompare(
-        (u2.userFullName === null ? u2.sqlLogin.toLowerCase() : u2.userFullName)
+      return (u2.userFullName === null ? u2.sqlLogin.toLowerCase() : u2.userFullName).localeCompare(
+        (u1.userFullName === null ? u1.sqlLogin.toLowerCase() : u1.userFullName), 'fr', { sensitivity: 'base' }
       );
     }
     return u1.groupType - u2.groupType;
@@ -172,7 +181,18 @@ export class DatabaseEditComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe( (contributor: DialogContributor) => {
       if (contributor !== undefined) {
-        this.contributorsService.modifyContributor(databaseUser).subscribe(
+        const databaseUserUpdate: DatabaseUser = {
+          dbId: databaseUser.dbId,
+          sqlLogin: databaseUser.sqlLogin,
+          userLogin: databaseUser.userLogin,
+          userFullName: databaseUser.userFullName,
+          groupType: contributor.permissionId,
+          password: null,
+          addedByUserLogin: databaseUser.addedByUserLogin,
+          canBeDeleted: databaseUser.canBeDeleted,
+          canBeUpdated: databaseUser.canBeUpdated
+        };
+        this.contributorsService.modifyContributor(databaseUserUpdate).subscribe(
           data => {
             // Modification
             const contributorUpdated = this.database.users.find(c => c.sqlLogin === contributor.sqlLogin);
@@ -227,11 +247,11 @@ export class DatabaseEditComponent implements OnInit {
   }
 
   canUpdate(user: DatabaseUser): boolean {
-    return user.canBeUpdated && (user.groupType !== 1 || this.cptAdmins > 1);
+    return user.canBeUpdated && (user.groupType !== 1 || this.nbAdmins > 1);
   }
 
   canDeleted(user: DatabaseUser): boolean {
-    return user.canBeDeleted && (user.groupType !== 1 || this.cptAdmins > 1);
+    return user.canBeDeleted && (user.groupType !== 1 || this.nbAdmins > 1);
   }
 
   private getDatabase(): void {
@@ -243,12 +263,6 @@ export class DatabaseEditComponent implements OnInit {
         if (data.commentaire === null) {
           data.commentaire = '';
         }
-        // On compte le nb d'administrateur
-        data.users.forEach((contributor) => {
-          if (contributor.groupType === 1) {
-            this.cptAdmins++;
-          }
-        });
         // Tri par type puis par nom
         data.users.sort((dgu1, dgu2) => DatabaseEditComponent.compareUsers(dgu1, dgu2));
         this.database = data;

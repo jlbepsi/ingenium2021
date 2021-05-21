@@ -87,7 +87,7 @@ export class DatabaseListComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe( (database: DialogNewDatabaseResult) => {
-      console.log('database=', database);
+      // console.log('database=', database);
       if (database !== undefined) {
         const newDatabase: DatabaseApiModel =
           {
@@ -133,7 +133,7 @@ export class DatabaseListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe( (doDelete: boolean) => {
       if (doDelete) {
-        console.log('suppression BD=', database);
+        // console.log('suppression BD=', database);
         this.databasesService.deleteDatabase(database.id).subscribe(
           data => {
             this.showSnackbar('Base de données supprimée !', SnackbarTpe.success);
@@ -154,7 +154,7 @@ export class DatabaseListComponent implements OnInit {
   onAddAccount(newAccount: DatabaseAccountApiModel): void {
     // On fixe l'identifiant utilisateur
     newAccount.userLogin = this.profile.sub;
-    console.log('DatabaseListComponent.onAddAccount', newAccount);
+    // console.log('DatabaseListComponent.onAddAccount', newAccount);
     this.accountsService.addAccount(newAccount).subscribe(
       data => {
         this.showSnackbar('Compte SQL ajouté !', SnackbarTpe.success);
@@ -179,7 +179,7 @@ export class DatabaseListComponent implements OnInit {
   onModifyPasswordAccount(updatedAccount: DatabaseAccountApiModel): void {
     // On fixe l'identifiant utilisateur
     updatedAccount.userLogin = this.profile.sub;
-    console.log('DatabaseListComponent.onModifyPasswordAccount', updatedAccount);
+    // console.log('DatabaseListComponent.onModifyPasswordAccount', updatedAccount);
     this.accountsService.updateAccount(updatedAccount).subscribe(
       data => {
         this.showSnackbar('Compte SQL modifié !', SnackbarTpe.success);
@@ -194,7 +194,7 @@ export class DatabaseListComponent implements OnInit {
   onDeleteAccount(accountDeleted: DatabaseAccountApiModel): void {
     // On fixe l'identifiant utilisateur
     accountDeleted.userLogin = this.profile.sub;
-    console.log('DatabaseListComponent.onDeleteAccount', accountDeleted);
+    // console.log('DatabaseListComponent.onDeleteAccount', accountDeleted);
     this.accountsService.deleteAccount(accountDeleted).subscribe(
       data => {
         this.showSnackbar('Compte SQL supprimé !', SnackbarTpe.success);
@@ -205,7 +205,7 @@ export class DatabaseListComponent implements OnInit {
          */
         const accountFound = this.accounts.find(account =>
           account.server.id === accountDeleted.serverId && account.userLogin === accountDeleted.userLogin);
-        accountFound.sqlLogin = '';
+        accountFound.sqlLogin = null;
         accountFound.nbDatabases = 0;
       },
       error => {
