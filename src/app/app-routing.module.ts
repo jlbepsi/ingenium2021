@@ -40,18 +40,6 @@ const adminRoutes: Routes = [
   },
   { path: '**', component: PageNotFoundComponent }
 ];
-/*const routes: Routes = [
-  { path: 'emprunt/list', component: EmpruntListComponent },
-  { path: 'emprunt/add', component: EmpruntAddComponent},
-  { path: 'webstorage', component: WebStorageComponent},
-  { path: 'database/list', component: DatabaseListComponent},
-  { path: 'database/:id', component: DatabaseEditComponent},
-  { path: 'software/microsoft', component: MicrosoftComponent},
-  { path: 'software/intellij', component: IntellijComponent},
-  { path: 'software/github', component: GithubComponent},
-  { path: 'software/vmware', component: VmwareComponent},
-  { path: '**', component: DashboardComponent}
-];*/
 
 @NgModule({
   imports: [RouterModule.forRoot(adminRoutes)],

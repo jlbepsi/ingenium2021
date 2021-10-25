@@ -58,8 +58,8 @@ export const VMWAREPRODUCTS: VmwareProduct[] = [
   {
     title: 'vSphere 6.x Entrepise',
     description: 'vSphere ESX(i) 6.x',
-    licensekey: '1102Q-NCH5J-E8A94-029KH-0MV2P',
-    enddate: '01/11/2021',
+    licensekey: 'N1631-QY346-F8488-05382-14643',
+    enddate: '30/08/2022',
     imageUrl: '/assets/images/vmware/vsphere.png',
     urlUI: 'vSphere',
     url: 'https://www.vmware.com/go/download-vsphere-fr'

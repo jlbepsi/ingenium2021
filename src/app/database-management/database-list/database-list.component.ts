@@ -13,7 +13,7 @@ import {Router} from '@angular/router';
 import {AuthenticationService} from '../../security/authentication.service';
 import {SnackbarTpe} from '../../share/model/snackbar-type';
 
-
+user
 @Component({
   selector: 'app-database-list',
   templateUrl: './database-list.component.html',
